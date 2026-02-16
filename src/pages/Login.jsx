@@ -14,12 +14,19 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = login(email, password, remember);
+
+    // basic validation
+    if (!email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
+    const result = login(email.trim(), password.trim(), remember);
 
     if (result.success) {
       navigate("/");
     } else {
-      setError(result.message);
+      setError(result.message || "Invalid credentials");
     }
   };
 

@@ -1,20 +1,42 @@
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export default function Board() {
-  const { logout } = useAuth();
+export default function Dashboard() {
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-4">
-        Welcome to Task Board 🎯
-      </h1>
+  <div className="dashboard-layout">
 
-      <button
-        onClick={logout}
-        className="bg-red-500 text-white px-4 py-2 rounded"
-      >
+  <div className="sidebar">
+    <div>
+      <h2 className="sidebar-title">Task Board</h2>
+
+      <div className="sidebar-middle">
+        <p>My Activity</p>
+        <p>Backlog</p>
+        <p>Calendar</p>
+        <p>Dependencies</p>
+      </div>
+    </div>
+
+    <div className="sidebar-bottom">
+      <button onClick={handleLogout} className="logout-btn">
         Logout
       </button>
+      <p className="made-by">Made by Vasudha</p>
     </div>
+  </div>
+
+  <div className="main-content">
+  </div>
+
+</div>
+
   );
 }

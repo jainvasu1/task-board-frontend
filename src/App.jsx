@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { BoardProvider } from "./context/BoardContext";
+
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
@@ -33,9 +35,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <BoardProvider> 
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </BoardProvider>
     </AuthProvider>
   );
 }
