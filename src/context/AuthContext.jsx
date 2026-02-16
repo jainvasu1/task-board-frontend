@@ -1,62 +1,46 @@
-import { createContext, useEffect, useState } from "react";
-import { HARDCODED_EMAIL, HARDCODED_PASSWORD } from "./authConstants";
+import { createContext, useContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-useEffect(() => {
-    const storedUser =
-      localStorage.getItem("authUser") ||
-      sessionStorage.getItem("authUser");
-
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
   const login = (email, password, remember) => {
-    if (
-      email === HARDCODED_EMAIL &&
-      password === HARDCODED_PASSWORD
-    ) {
+    if (!email || !password) {
+      return { success: false, message: "All fields are required" };
+    }
+
+    if (email === "intern@demo.com" && password === "intern123") {
       const userData = { email };
 
-      setUser(userData);
-
       if (remember) {
-        localStorage.setItem(
-          "authUser",
-          JSON.stringify(userData)
-        );
-      } else {
-        sessionStorage.setItem(
-          "authUser",
-          JSON.stringify(userData)
-        );
+        localStorage.setItem("user", JSON.stringify(userData));
       }
 
+      setUser(userData);
       return { success: true };
     }
 
-    return {
-      success: false,
-      message: "Invalid email or password",
-    };
+    return { success: false, message: "Invalid email or password" };
   };
 
   const logout = () => {
+    localStorage.removeItem("user");
     setUser(null);
-    localStorage.removeItem("authUser");
-    sessionStorage.removeItem("authUser");
   };
 
   return (
-    <AuthContext.Provider
-      value={{ user, login, logout }}
-    >
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
