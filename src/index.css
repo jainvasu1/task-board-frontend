@@ -192,10 +192,34 @@ body {
 }
 
 .sidebar-menu {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
+  gap: 1.4rem;
+}
+
+.menu-item {
+  display: flex;              /* ADD THIS */
+  align-items: center;        /* ADD THIS */
+  gap: 12px;                  /* ADD THIS */
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.25s ease;
+  opacity: 0.95;
+  padding: 10px 14px;         /* Better spacing */
+  border-radius: 12px;
+}
+
+.menu-item svg {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateX(4px);
+  opacity: 1;
 }
 
 .sidebar-divider {
@@ -254,19 +278,17 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Right Section */
+
 .header-right {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* Search Wrapper */
 .search-wrapper {
   position: relative;
 }
 
-/* Search Icon */
 .search-icon {
   position: absolute;
   left: 14px;
@@ -276,7 +298,7 @@ body {
   opacity: 0.6;
 }
 
-/* Premium Search Input */
+
 .header-search {
   width: 300px;
   height: 42px;
@@ -301,7 +323,6 @@ body {
   box-shadow: 0 0 0 4px rgba(106, 73, 230, 0.15);
 }
 
-/* Premium Avatar */
 .avatar {
   width: 45px;
   height: 45px;
@@ -322,7 +343,7 @@ body {
   box-shadow: 0 12px 28px rgba(95, 65, 228, 0.4);
 }
 
-/* ================= PREMIUM FILTER BAR ================= */
+
 
 .filter-bar {
   background: #ffffff;
@@ -384,7 +405,7 @@ body {
   box-shadow: 0 0 0 4px rgba(106, 73, 230, 0.15);
 }
 
-/* Premium Date Input */
+
 .filter-group input[type="date"] {
   padding: 0.6rem 1.1rem;
   border-radius: 14px;
@@ -435,13 +456,13 @@ body {
   padding: 3rem 0;
 }
 
-/* MAIN CONTAINER */
+
 .create-task-container {
   width: 70%;
   margin: auto;
 }
 
-/* ===== TITLE BAR (Same Width As Description) ===== */
+
 
 .title-section {
   width: 70%;
@@ -505,7 +526,7 @@ body {
   outline: none;
 }
 
-/* ===== OPTIONS SECTION PERFECT ALIGNMENT ===== */
+
 
 .task-options {
   width: 70%;
@@ -572,7 +593,7 @@ body {
 
 
 
-/* ===== Description Card ===== */
+
 
 .description-card {
   width: 60%;
@@ -832,7 +853,7 @@ body {
 }
 
 
-/* ===== TITLE HEADER ROW ===== */
+
 
 .create-header-row {
   width: 70%;
@@ -877,13 +898,13 @@ body {
   outline: none;
 }
 
-/* Right Side Buttons */
+
 .title-buttons {
   display: flex;
   gap: 1rem;
 }
 
-/* Premium Buttons */
+
 .action-btn {
   padding: 0.6rem 1.5rem;
   border-radius: 20px;
