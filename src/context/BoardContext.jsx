@@ -4,62 +4,71 @@ const BoardContext = createContext();
 
 const initialState = {
   tasks: [],
-  activityLog: [],
+  activityLog: []
 };
 
-function reducer(state, action) {
+// Safe load from localStorage
+const loadFromStorage = () => {
+  try {
+    const data = localStorage.getItem("taskBoard");
+    return data ? JSON.parse(data) : initialState;
+  } catch {
+    return initialState;
+  }
+};
+
+function boardReducer(state, action) {
   switch (action.type) {
 
-    case "INIT":
-      return action.payload;
-
-    case "CREATE_TASK":
+    // ================= ADD =================
+    case "ADD_TASK":
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
         activityLog: [
-          { type: "created", task: action.payload.title, time: Date.now() },
+          { type: "created", task: action.payload.title },
           ...state.activityLog
         ]
       };
 
-    case "EDIT_TASK":
+    // ================= UPDATE (Drag or Edit) =================
+    case "UPDATE_TASK": {
+      const oldTask = state.tasks.find(t => t.id === action.payload.id);
+
+      const isMoved = oldTask?.status !== action.payload.status;
+
       return {
         ...state,
-        tasks: state.tasks.map(t =>
-          t.id === action.payload.id ? action.payload : t
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id ? action.payload : task
         ),
         activityLog: [
-          { type: "edited", task: action.payload.title, time: Date.now() },
+          {
+            type: isMoved ? "moved" : "edited",
+            task: action.payload.title
+          },
           ...state.activityLog
         ]
       };
+    }
 
-    case "DELETE_TASK":
+    // ================= DELETE =================
+    case "DELETE_TASK": {
+      const deletedTask = state.tasks.find(t => t.id === action.payload);
+
       return {
         ...state,
-        tasks: state.tasks.filter(t => t.id !== action.payload.id),
+        tasks: state.tasks.filter(t => t.id !== action.payload),
         activityLog: [
-          { type: "deleted", task: action.payload.title, time: Date.now() },
+          { type: "deleted", task: deletedTask?.title || "Task" },
           ...state.activityLog
         ]
       };
+    }
 
-    case "MOVE_TASK":
-      return {
-        ...state,
-        tasks: state.tasks.map(t =>
-          t.id === action.payload.id
-            ? { ...t, status: action.payload.status }
-            : t
-        ),
-        activityLog: [
-          { type: "moved", task: action.payload.title, time: Date.now() },
-          ...state.activityLog
-        ]
-      };
-
+    // ================= RESET =================
     case "RESET":
+      localStorage.removeItem("taskBoard");
       return initialState;
 
     default:
@@ -67,24 +76,16 @@ function reducer(state, action) {
   }
 }
 
-export const BoardProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export function BoardProvider({ children }) {
+  const [state, dispatch] = useReducer(
+    boardReducer,
+    initialState,
+    loadFromStorage
+  );
 
-  // Load from storage safely
+  // Save to localStorage whenever state changes
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("board");
-      if (saved) {
-        dispatch({ type: "INIT", payload: JSON.parse(saved) });
-      }
-    } catch {
-      dispatch({ type: "INIT", payload: initialState });
-    }
-  }, []);
-
-  // Persist
-  useEffect(() => {
-    localStorage.setItem("board", JSON.stringify(state));
+    localStorage.setItem("taskBoard", JSON.stringify(state));
   }, [state]);
 
   return (
@@ -92,6 +93,6 @@ export const BoardProvider = ({ children }) => {
       {children}
     </BoardContext.Provider>
   );
-};
+}
 
 export const useBoard = () => useContext(BoardContext);

@@ -184,67 +184,78 @@ body {
 }
 
 /* SIDEBAR */
+/* ================= SIDEBAR ================= */
+
+/* ================= PROFESSIONAL PURPLE SIDEBAR ================= */
+
+/* ================= CLEAN SIDEBAR SPACING FIX ================= */
+
+/* ===== SIDEBAR STRUCTURE ===== */
+
 .sidebar {
-  width: 270px;
+  width: 260px;
+  height: 100vh;
   background: linear-gradient(180deg, #9d7cf7, #6a49e6);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 1.5rem 1.5rem;
+  color: white;
 }
 
-/* TOP BLOCK */
-.sidebar-top {
-  padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.15);
+/* Logo */
+.sidebar-logo {
+  padding-bottom: 1.2rem;
 }
 
-.sidebar-title {
-  font-size: 2rem;
+.logo-text {
+  font-size: 1.9rem;
   font-weight: 700;
-  text-align: center;
 }
 
-/* MENU ITEMS */
+/* Menu */
 .sidebar-menu {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2.8rem;
-  margin-top: 3rem;
-  font-size: 1.6rem;
-  font-weight: 700;
+  gap: 1.4rem;
 }
 
-.sidebar-menu p {
+/* Menu Items */
+.menu-item {
+  font-size: 1.05rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.25s ease;
+  opacity: 0.95;
 }
 
-.sidebar-menu p:hover {
-  transform: translateX(6px);
+.menu-item:hover {
+  transform: translateX(4px);
+  opacity: 1;
 }
 
-/* FOOTER */
-.sidebar-footer {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 2rem 1.5rem;
-  text-align: center;
+/* Divider Line */
+.sidebar-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 1.8rem 0;
 }
 
-.logout {
-  font-size: 1.6rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 1rem;
+/* Bottom Section */
+.sidebar-bottom {
+  margin-top: auto;
 }
 
-.logout:hover {
-  transform: translateX(6px);
+.logout-item {
+  font-weight: 600;
 }
 
 .made-by {
-  font-size: 1rem;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
+
 
 .main-content {
   flex: 1;
@@ -313,39 +324,112 @@ body {
   justify-content: center;
   font-weight: 600;
 }
+/* ================= PREMIUM FILTER BAR ================= */
+
 .filter-bar {
-  background: #f5f5f5;
-  padding: 1rem 2rem;
+  background: #ffffff;
+  padding: 1.3rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
 }
 
 .filter-left {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 
 .filter-label {
   font-weight: 600;
+  font-size: 1rem;
+  color: #222;
+  letter-spacing: 0.5px;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.7rem;
 }
 
-.filter-select,
-.filter-date {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  border: 1px solid #bbb;
+.filter-group label {
+  font-weight: 500;
   font-size: 0.9rem;
-  cursor: pointer;
+  color: #555;
 }
+
+/* Premium Dropdown */
+.filter-group select {
+  padding: 0.6rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid #e2e2e2;
+  background: #fafafa;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.filter-group select:hover {
+  border-color: #6a49e6;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(106, 73, 230, 0.15);
+}
+
+.filter-group select:focus {
+  border-color: #6a49e6;
+  box-shadow: 0 0 0 4px rgba(106, 73, 230, 0.15);
+}
+
+/* Premium Date Input */
+.filter-group input[type="date"] {
+  padding: 0.6rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid #e2e2e2;
+  background: #fafafa;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.filter-group input[type="date"]:hover {
+  border-color: #6a49e6;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(106, 73, 230, 0.15);
+}
+
+.filter-group input[type="date"]:focus {
+  border-color: #6a49e6;
+  box-shadow: 0 0 0 4px rgba(106, 73, 230, 0.15);
+}
+
+/* Premium Create Button */
+.create-btn {
+  background: linear-gradient(135deg, #7a5cf4, #5f41e4);
+  color: white;
+  padding: 0.7rem 1.6rem;
+  border-radius: 16px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(95, 65, 228, 0.25);
+}
+
+.create-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(95, 65, 228, 0.35);
+}
+
 
 .create-task-btn {
   background: #d6c8f8;
@@ -553,4 +637,44 @@ body {
   text-align: center;
   color: #777;
   margin-top: 2rem;
+}
+.task-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #6a49e6;
+  transition: 0.2s ease;
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #e74c3c;
+  transition: 0.2s ease;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  transform: scale(1.2);
+}
+
+.task-card {
+  cursor: grab;
 }

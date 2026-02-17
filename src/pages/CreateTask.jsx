@@ -1,20 +1,29 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useBoard } from "../context/BoardContext";
 
 export default function CreateTask() {
-  const { dispatch } = useBoard();
+  const { id } = useParams();
+  const { state, dispatch } = useBoard();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    priority: "Low",
-    tags: "3.1",
-    status: "Todo",
-    dueDate: "",
-    createdAt: new Date().toISOString().split("T")[0],
-  });
+  // Find existing task if editing
+  const existingTask = state.tasks.find(
+    (task) => task.id === Number(id)
+  );
+
+  // Form State
+  const [form, setForm] = useState(
+    existingTask || {
+      title: "",
+      description: "",
+      priority: "Low",
+      tags: "3.1",
+      status: "Todo",
+      dueDate: "",
+      createdAt: new Date().toISOString().split("T")[0],
+    }
+  );
 
   const handleChange = (field, value) => {
     setForm((prev) => ({
@@ -23,18 +32,35 @@ export default function CreateTask() {
     }));
   };
 
+  // SAVE (Add or Update)
   const handleSave = () => {
     if (!form.title.trim()) {
       alert("Title is required");
       return;
     }
 
+    if (id) {
+      dispatch({
+        type: "UPDATE_TASK",
+        payload: { ...form, id: Number(id) },
+      });
+    } else {
+      dispatch({
+        type: "ADD_TASK",
+        payload: { ...form, id: Date.now() },
+      });
+    }
+
+    navigate("/");
+  };
+
+  // DELETE (only in edit mode)
+  const handleDelete = () => {
+    if (!id) return;
+
     dispatch({
-      type: "ADD_TASK",
-      payload: {
-        ...form,
-        id: Date.now(),
-      },
+      type: "DELETE_TASK",
+      payload: Number(id),
     });
 
     navigate("/");
@@ -47,18 +73,22 @@ export default function CreateTask() {
   return (
     <div className="create-task-page">
 
-      {/* ===== HEADER STRIP ===== */}
+      {/* ===== HEADER ===== */}
       <div className="create-header">
 
         <div className="header-left">
-          <h3 className="page-heading">NEW TASK CREATION</h3>
+          <h3 className="page-heading">
+            {id ? "EDIT TASK" : "NEW TASK CREATION"}
+          </h3>
 
           <div className="title-group">
             <label>Title :</label>
             <input
               type="text"
               value={form.title}
-              onChange={(e) => handleChange("title", e.target.value)}
+              onChange={(e) =>
+                handleChange("title", e.target.value)
+              }
               className="title-input"
               placeholder="Enter task title"
             />
@@ -66,13 +96,14 @@ export default function CreateTask() {
         </div>
 
         <div className="header-buttons">
-          <button className="action-btn edit-btn">
-            Edit
-          </button>
-
-          <button className="action-btn delete-btn">
-            Delete
-          </button>
+          {id && (
+            <button
+              className="action-btn delete-btn"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          )}
 
           <button
             className="action-btn save-btn"
@@ -91,24 +122,28 @@ export default function CreateTask() {
 
       </div>
 
-      {/* ===== DESCRIPTION SECTION ===== */}
+      {/* ===== DESCRIPTION ===== */}
       <div className="description-box">
         <h3>Description :</h3>
         <textarea
           placeholder="Write description here..."
           value={form.description}
-          onChange={(e) => handleChange("description", e.target.value)}
+          onChange={(e) =>
+            handleChange("description", e.target.value)
+          }
         />
       </div>
 
-      {/* ===== OPTIONS SECTION ===== */}
+      {/* ===== OPTIONS ===== */}
       <div className="task-options">
 
         <div className="option-group">
           <label>Tags :</label>
           <select
             value={form.tags}
-            onChange={(e) => handleChange("tags", e.target.value)}
+            onChange={(e) =>
+              handleChange("tags", e.target.value)
+            }
           >
             <option value="3.1">3.1</option>
             <option value="3.2">3.2</option>
@@ -120,7 +155,9 @@ export default function CreateTask() {
           <label>Priority :</label>
           <select
             value={form.priority}
-            onChange={(e) => handleChange("priority", e.target.value)}
+            onChange={(e) =>
+              handleChange("priority", e.target.value)
+            }
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -132,7 +169,9 @@ export default function CreateTask() {
           <label>Status :</label>
           <select
             value={form.status}
-            onChange={(e) => handleChange("status", e.target.value)}
+            onChange={(e) =>
+              handleChange("status", e.target.value)
+            }
           >
             <option value="Todo">Todo</option>
             <option value="Doing">Doing</option>
@@ -145,16 +184,20 @@ export default function CreateTask() {
           <input
             type="date"
             value={form.dueDate}
-            onChange={(e) => handleChange("dueDate", e.target.value)}
+            onChange={(e) =>
+              handleChange("dueDate", e.target.value)
+            }
           />
         </div>
 
         <div className="option-group">
-          <label>CreatedAt :</label>
+          <label>Created At :</label>
           <input
             type="date"
             value={form.createdAt}
-            onChange={(e) => handleChange("createdAt", e.target.value)}
+            onChange={(e) =>
+              handleChange("createdAt", e.target.value)
+            }
           />
         </div>
 
@@ -163,4 +206,3 @@ export default function CreateTask() {
     </div>
   );
 }
-

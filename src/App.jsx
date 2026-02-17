@@ -30,6 +30,15 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+  path="/create/:id"
+  element={
+    <PrivateRoute>
+      <CreateTask />
+    </PrivateRoute>
+  }
+/>
+
 
       <Route
         path="/create"
