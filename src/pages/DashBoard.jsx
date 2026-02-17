@@ -42,6 +42,7 @@ export default function Dashboard() {
 
   const isHome = location.pathname === "/";
   const isActivity = location.pathname === "/activity-log";
+  
 
   let tasks = state.tasks.filter((task) =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase())
