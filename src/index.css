@@ -128,6 +128,20 @@ body {
   box-shadow: 0 0 0 3px rgba(95, 65, 228, 0.15);
   outline: none;
 }
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.logout:hover {
+  transform: translateX(6px);
+}
+
 
 .login-button {
   width: 100%;
@@ -498,4 +512,45 @@ body {
   padding: 0.6rem;
   border-radius: 8px;
   border: none;
+}
+
+.board-columns {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.board-column {
+  flex: 1;
+  background: #ede7ff;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.column-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.column-content {
+  flex: 1;
+}
+
+.task-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.empty-text {
+  text-align: center;
+  color: #777;
+  margin-top: 2rem;
 }
