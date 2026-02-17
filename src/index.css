@@ -16,7 +16,6 @@ body {
   width: 100%;
 }
 
-/* ================= LOGIN SPLIT LAYOUT ================= */
 
 .split-layout {
   display: flex;
@@ -87,7 +86,6 @@ body {
   50% { transform: translateY(-20px); }
 }
 
-/* ================= LOGIN CARD ================= */
 
 .login-container {
   width: 100%;
@@ -189,63 +187,34 @@ body {
   background: linear-gradient(180deg, #9d7cf7, #6a49e6);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem;
   color: white;
 }
 
-/* Logo */
-.sidebar-logo {
-  padding-bottom: 1.2rem;
-}
-
-.logo-text {
-  font-size: 1.9rem;
-  font-weight: 700;
-}
-
-
 .sidebar-menu {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
 }
-
-
-.menu-item {
-  font-size: 1.05rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.25s ease;
-  opacity: 0.95;
-}
-
-.menu-item:hover {
-  transform: translateX(4px);
-  opacity: 1;
-}
-
 
 .sidebar-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 1.8rem 0;
+  background: rgba(255,255,255,0.25);
+  margin: 1.5rem 0;
 }
 
-
-.sidebar-bottom {
+.sidebar-footer {
   margin-top: auto;
 }
 
-.logout-item {
-  font-weight: 600;
+.made-by {
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
-.made-by {
-  margin-top: 0.6rem;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
+
+
 
 
 .main-content {
@@ -952,4 +921,11 @@ body {
 
 .delete-btn:hover {
   transform: translateY(-2px);
+}
+
+
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 14px;
+  border-radius: 10px;
 }

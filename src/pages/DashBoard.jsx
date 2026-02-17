@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useBoard } from "../context/BoardContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import {
   Home,
-  ListChecks,
+  List,
   LogOut,
   Pencil,
   Trash2
@@ -12,13 +13,14 @@ import {
 
 export default function Dashboard() {
   const { logout, user } = useAuth();
-  const { state, dispatch } = useBoard();   // 👈 dispatch added
+  const { state, dispatch } = useBoard();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPriority, setSelectedPriority] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [draggedTask, setDraggedTask] = useState(null);   // 👈 added
+  const [draggedTask, setDraggedTask] = useState(null);
 
   const handleLogout = () => {
     logout();
@@ -27,6 +29,9 @@ export default function Dashboard() {
 
   const firstLetter = user?.email?.charAt(0).toUpperCase();
   const columns = ["Todo", "Doing", "Done"];
+
+  const isHome = location.pathname === "/";
+  const isActivity = location.pathname === "/activity";
 
   let tasks = state.tasks.filter((task) =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -40,8 +45,6 @@ export default function Dashboard() {
     tasks = tasks.filter((task) => task.dueDate === selectedDate);
   }
 
-  // ================= DRAG & DROP =================
-
   const handleDragStart = (task) => {
     setDraggedTask(task);
   };
@@ -50,62 +53,65 @@ export default function Dashboard() {
     e.preventDefault();
   };
 
- const handleDrop = (newStatus) => {
-  if (!draggedTask) return;
+  const handleDrop = (newStatus) => {
+    if (!draggedTask) return;
 
-  dispatch({
-    type: "MOVE_TASK",
-    payload: {
-      id: draggedTask.id,
-      status: newStatus,
-    },
-  });
+    dispatch({
+      type: "MOVE_TASK",
+      payload: {
+        id: draggedTask.id,
+        status: newStatus,
+      },
+    });
 
-  setDraggedTask(null);
-};
-
-
-  // ===============================================
+    setDraggedTask(null);
+  };
 
   return (
     <div className="dashboard-layout">
-
-      {/* SIDEBAR */}
       <div className="sidebar">
         <div className="sidebar-logo">
           <h2 className="logo-text">Task Board</h2>
         </div>
 
         <div className="sidebar-menu">
-          <div className="menu-item"><Home size={18} /><span>Home</span></div>
           <div
-  className="menu-item"
-  onClick={() => navigate("/activity-log")}
->
-  <ListChecks size={18} />
-  <span>Activity Log</span>
-</div>
-        </div>
+            className={`menu-item ${isHome ? "active" : ""}`}
+            onClick={() => navigate("/")}
+          >
+            <Home size={18} />
+            <span>Home</span>
+          </div>
 
-        
+          <div
+            className={`menu-item ${isActivity ? "active" : ""}`}
+            onClick={() => navigate("/activity-log")}
+          >
+            <List size={18} />
+            <span>Activity Log</span>
+          </div>
 
-        <div className="sidebar-divider"></div>
-
-        <div className="sidebar-bottom">
-          <div className="menu-item logout-item" onClick={handleLogout}>
+          <div
+            className="menu-item logout-item"
+            onClick={handleLogout}
+          >
             <LogOut size={18} />
             <span>Logout</span>
           </div>
+        </div>
+
+        <div className="sidebar-divider"></div>
+
+        <div className="sidebar-footer">
           <p className="made-by">Made by Vasudha</p>
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
       <div className="main-content">
-
-        {/* TOP HEADER */}
         <div className="top-header">
-          <h2 className="header-title">Task Board / My Activity</h2>
+          <h2 className="header-title">
+            Task Board / {isHome ? "Home" : "Activity Log"}
+          </h2>
 
           <div className="header-right">
             <div className="search-wrapper">
@@ -122,104 +128,116 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* FILTER BAR */}
-        <div className="filter-bar">
-          <div className="filter-left">
-            <span className="filter-label">Filter :</span>
+        {isHome && (
+          <>
+            <div className="filter-bar">
+              <div className="filter-left">
+                <span className="filter-label">Filter :</span>
 
-            <div className="filter-group">
-              <label>Priority :</label>
-              <select
-                value={selectedPriority}
-                onChange={(e) => setSelectedPriority(e.target.value)}
-              >
-                <option value="">All</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>Date :</label>
-              <input
-                type="date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <button
-            className="create-btn"
-            onClick={() => navigate("/create")}
-          >
-            + Create New Task
-          </button>
-        </div>
-
-        {/* BOARD COLUMNS */}
-        <div className="board-columns">
-          {columns.map((col) => {
-            const columnTasks = tasks.filter(
-              (task) => task.status === col
-            );
-
-            return (
-              <div
-                key={col}
-                className="board-column"
-                onDragOver={handleDragOver}
-                onDrop={() => handleDrop(col)}
-              >
-                <h3>{col}</h3>
-
-                {columnTasks.length === 0 && (
-                  <p className="empty-text">No tasks</p>
-                )}
-
-                {columnTasks.map((task) => (
-                  <div
-                    key={task.id}
-                    className="task-card"
-                    draggable
-                    onDragStart={() => handleDragStart(task)}
+                <div className="filter-group">
+                  <label>Priority :</label>
+                  <select
+                    value={selectedPriority}
+                    onChange={(e) =>
+                      setSelectedPriority(e.target.value)
+                    }
                   >
-                    <div className="task-card-header">
-  <h4>{task.title}</h4>
+                    <option value="">All</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </div>
 
-  <div className="task-icons">
-    <Pencil
-      size={18}
-      className="edit-icon"
-      onClick={() => navigate(`/create/${task.id}`)}
-    />
-
-   <Trash2
-  size={18}
-  className="delete-icon"
-  onClick={() =>
-    dispatch({
-      type: "DELETE_TASK",
-      payload: task.id
-    })
-  }
-/>
-
-  </div>
-</div>
-
-                    <p>{task.description}</p>
-                    <small>Priority: {task.priority}</small>
-                    <br />
-                    <small>Due: {task.dueDate || "N/A"}</small>
-                  </div>
-                ))}
+                <div className="filter-group">
+                  <label>Date :</label>
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) =>
+                      setSelectedDate(e.target.value)
+                    }
+                  />
+                </div>
               </div>
-            );
-          })}
-        </div>
 
+              <button
+                className="create-btn"
+                onClick={() => navigate("/create")}
+              >
+                + Create New Task
+              </button>
+            </div>
+
+            <div className="board-columns">
+              {columns.map((col) => {
+                const columnTasks = tasks.filter(
+                  (task) => task.status === col
+                );
+
+                return (
+                  <div
+                    key={col}
+                    className="board-column"
+                    onDragOver={handleDragOver}
+                    onDrop={() => handleDrop(col)}
+                  >
+                    <h3>{col}</h3>
+
+                    {columnTasks.length === 0 && (
+                      <p className="empty-text">No tasks</p>
+                    )}
+
+                    {columnTasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className="task-card"
+                        draggable
+                        onDragStart={() =>
+                          handleDragStart(task)
+                        }
+                      >
+                        <div className="task-card-header">
+                          <h4>{task.title}</h4>
+
+                          <div className="task-icons">
+                            <Pencil
+                              size={18}
+                              className="edit-icon"
+                              onClick={() =>
+                                navigate(`/create/${task.id}`)
+                              }
+                            />
+
+                            <Trash2
+                              size={18}
+                              className="delete-icon"
+                              onClick={() =>
+                                dispatch({
+                                  type: "DELETE_TASK",
+                                  payload: task.id,
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+
+                        <p>{task.description}</p>
+                        <small>
+                          Priority: {task.priority}
+                        </small>
+                        <br />
+                        <small>
+                          Due: {task.dueDate || "N/A"}
+                        </small>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

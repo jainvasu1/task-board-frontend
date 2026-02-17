@@ -23,8 +23,6 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/activity-log" element={<ActivityLog />} />
-
 
       <Route
         path="/"
@@ -34,24 +32,6 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
-      <Route
-  path="/create/:id"
-  element={
-    <PrivateRoute>
-      <CreateTask />
-    </PrivateRoute>
-  }
-/>
-<Route
-  path="/activity-log"
-  element={
-    <PrivateRoute>
-      <ActivityLog />
-    </PrivateRoute>
-  }
-/>
-
-
 
       <Route
         path="/create"
@@ -61,9 +41,28 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/create/:id"
+        element={
+          <PrivateRoute>
+            <CreateTask />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/activity-log"
+        element={
+          <PrivateRoute>
+            <ActivityLog />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
+
 
 export default function App() {
   return (
