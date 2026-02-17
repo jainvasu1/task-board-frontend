@@ -3,15 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import { useBoard } from "../context/BoardContext";
 import { useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  Activity,
+  Home,
   ListChecks,
-  Calendar,
-  GitBranch,
-  Boxes,
-  Shield,
-  Globe,
-  Code,
   LogOut,
   Pencil,
   Trash2
@@ -57,19 +50,20 @@ export default function Dashboard() {
     e.preventDefault();
   };
 
-  const handleDrop = (newStatus) => {
-    if (!draggedTask) return;
+ const handleDrop = (newStatus) => {
+  if (!draggedTask) return;
 
-    dispatch({
-      type: "UPDATE_TASK",
-      payload: {
-        ...draggedTask,
-        status: newStatus,
-      },
-    });
+  dispatch({
+    type: "MOVE_TASK",
+    payload: {
+      id: draggedTask.id,
+      status: newStatus,
+    },
+  });
 
-    setDraggedTask(null);
-  };
+  setDraggedTask(null);
+};
+
 
   // ===============================================
 
@@ -83,16 +77,17 @@ export default function Dashboard() {
         </div>
 
         <div className="sidebar-menu">
-          <div className="menu-item"><LayoutDashboard size={18} /><span>Overview</span></div>
-          <div className="menu-item"><Activity size={18} /><span>My Activity</span></div>
-          <div className="menu-item"><ListChecks size={18} /><span>Backlog</span></div>
-          <div className="menu-item"><Calendar size={18} /><span>Calendar</span></div>
-          <div className="menu-item"><GitBranch size={18} /><span>Dependencies</span></div>
-          <div className="menu-item"><Boxes size={18} /><span>Containers</span></div>
-          <div className="menu-item"><Shield size={18} /><span>API Security</span></div>
-          <div className="menu-item"><Globe size={18} /><span>DAST</span></div>
-          <div className="menu-item"><Code size={18} /><span>SAST</span></div>
+          <div className="menu-item"><Home size={18} /><span>Home</span></div>
+          <div
+  className="menu-item"
+  onClick={() => navigate("/activity-log")}
+>
+  <ListChecks size={18} />
+  <span>Activity Log</span>
+</div>
         </div>
+
+        
 
         <div className="sidebar-divider"></div>
 
@@ -200,17 +195,17 @@ export default function Dashboard() {
       onClick={() => navigate(`/create/${task.id}`)}
     />
 
-    <Trash2
-      size={18}
-      className="delete-icon"
-      onClick={() =>
-        dispatch({
-          type: "DELETE_TASK",
-          payload: task.id,
-          payloadTitle: task.title
-        })
-      }
-    />
+   <Trash2
+  size={18}
+  className="delete-icon"
+  onClick={() =>
+    dispatch({
+      type: "DELETE_TASK",
+      payload: task.id
+    })
+  }
+/>
+
   </div>
 </div>
 

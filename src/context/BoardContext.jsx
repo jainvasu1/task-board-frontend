@@ -20,61 +20,75 @@ const loadFromStorage = () => {
 function boardReducer(state, action) {
   switch (action.type) {
 
-    // ================= ADD =================
     case "ADD_TASK":
-      return {
-        ...state,
-        tasks: [...state.tasks, action.payload],
-        activityLog: [
-          { type: "created", task: action.payload.title },
-          ...state.activityLog
-        ]
-      };
+  return {
+    ...state,
+    tasks: [...state.tasks, action.payload],
+    activityLog: [
+      {
+        type: "created",
+        message: `Task ID = ${action.payload.id} created`,
+        time: new Date().toISOString()
+      },
+      ...state.activityLog
+    ]
+  };
 
-    // ================= UPDATE (Drag or Edit) =================
-    case "UPDATE_TASK": {
-      const oldTask = state.tasks.find(t => t.id === action.payload.id);
+case "UPDATE_TASK":
+  return {
+    ...state,
+    tasks: state.tasks.map((task) =>
+      task.id === action.payload.id ? action.payload : task
+    ),
+    activityLog: [
+      {
+        type: "edited",
+        message: `Task ID = ${action.payload.id} edited`,
+        time: new Date().toISOString()
+      },
+      ...state.activityLog
+    ]
+  };
 
-      const isMoved = oldTask?.status !== action.payload.status;
+case "MOVE_TASK":
+  return {
+    ...state,
+    tasks: state.tasks.map((task) =>
+      task.id === action.payload.id
+        ? { ...task, status: action.payload.status }
+        : task
+    ),
+    activityLog: [
+      {
+        type: "moved",
+        message: `Task ID = ${action.payload.id} moved to ${action.payload.status}`,
+        time: new Date().toISOString()
+      },
+      ...state.activityLog
+    ]
+  };
 
-      return {
-        ...state,
-        tasks: state.tasks.map((task) =>
-          task.id === action.payload.id ? action.payload : task
-        ),
-        activityLog: [
-          {
-            type: isMoved ? "moved" : "edited",
-            task: action.payload.title
-          },
-          ...state.activityLog
-        ]
-      };
-    }
+case "DELETE_TASK":
+  return {
+    ...state,
+    tasks: state.tasks.filter((t) => t.id !== action.payload),
+    activityLog: [
+      {
+        type: "deleted",
+        message: `Task ID = ${action.payload} deleted`,
+        time: new Date().toISOString()
+      },
+      ...state.activityLog
+    ]
+  };
 
-    // ================= DELETE =================
-    case "DELETE_TASK": {
-      const deletedTask = state.tasks.find(t => t.id === action.payload);
-
-      return {
-        ...state,
-        tasks: state.tasks.filter(t => t.id !== action.payload),
-        activityLog: [
-          { type: "deleted", task: deletedTask?.title || "Task" },
-          ...state.activityLog
-        ]
-      };
-    }
-
-    // ================= RESET =================
-    case "RESET":
-      localStorage.removeItem("taskBoard");
-      return initialState;
 
     default:
       return state;
   }
 }
+
+
 
 export function BoardProvider({ children }) {
   const [state, dispatch] = useReducer(

@@ -7,6 +7,8 @@ import {
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { BoardProvider } from "./context/BoardContext";
+import ActivityLog from "./pages/ActivityLog";
+
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -21,6 +23,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/activity-log" element={<ActivityLog />} />
+
 
       <Route
         path="/"
@@ -38,6 +42,15 @@ function AppRoutes() {
     </PrivateRoute>
   }
 />
+<Route
+  path="/activity-log"
+  element={
+    <PrivateRoute>
+      <ActivityLog />
+    </PrivateRoute>
+  }
+/>
+
 
 
       <Route

@@ -47,7 +47,10 @@ export default function CreateTask() {
     } else {
       dispatch({
         type: "ADD_TASK",
-        payload: { ...form, id: Date.now() },
+        payload: {
+          ...form,
+          id: Date.now(),
+        },
       });
     }
 
@@ -73,29 +76,25 @@ export default function CreateTask() {
   return (
     <div className="create-task-page">
 
-      {/* ===== HEADER ===== */}
-      <div className="create-header">
+      {/* ===== TITLE BAR ===== */}
+      <div className="create-header-row">
 
-        <div className="header-left">
-          <h3 className="page-heading">
+        <div className="title-left">
+          <h2 className="create-title">
             {id ? "EDIT TASK" : "NEW TASK CREATION"}
-          </h3>
+          </h2>
 
-          <div className="title-group">
-            <label>Title :</label>
-            <input
-              type="text"
-              value={form.title}
-              onChange={(e) =>
-                handleChange("title", e.target.value)
-              }
-              className="title-input"
-              placeholder="Enter task title"
-            />
-          </div>
+          <input
+            type="text"
+            value={form.title}
+            onChange={(e) => handleChange("title", e.target.value)}
+            placeholder="Enter task title"
+            className="main-title-input"
+          />
         </div>
 
-        <div className="header-buttons">
+        <div className="title-buttons">
+
           {id && (
             <button
               className="action-btn delete-btn"
@@ -118,13 +117,14 @@ export default function CreateTask() {
           >
             Cancel
           </button>
-        </div>
 
+        </div>
       </div>
 
-      {/* ===== DESCRIPTION ===== */}
+      {/* ===== DESCRIPTION BOX (UNCHANGED STYLE) ===== */}
       <div className="description-box">
-        <h3>Description :</h3>
+        <h3>Description</h3>
+
         <textarea
           placeholder="Write description here..."
           value={form.description}
@@ -134,11 +134,11 @@ export default function CreateTask() {
         />
       </div>
 
-      {/* ===== OPTIONS ===== */}
+      {/* ===== OPTIONS SECTION ===== */}
       <div className="task-options">
 
         <div className="option-group">
-          <label>Tags :</label>
+          <label>Tags</label>
           <select
             value={form.tags}
             onChange={(e) =>
@@ -152,7 +152,7 @@ export default function CreateTask() {
         </div>
 
         <div className="option-group">
-          <label>Priority :</label>
+          <label>Priority</label>
           <select
             value={form.priority}
             onChange={(e) =>
@@ -166,7 +166,7 @@ export default function CreateTask() {
         </div>
 
         <div className="option-group">
-          <label>Status :</label>
+          <label>Status</label>
           <select
             value={form.status}
             onChange={(e) =>
@@ -180,7 +180,7 @@ export default function CreateTask() {
         </div>
 
         <div className="option-group">
-          <label>Due Date :</label>
+          <label>Due Date</label>
           <input
             type="date"
             value={form.dueDate}
@@ -191,7 +191,7 @@ export default function CreateTask() {
         </div>
 
         <div className="option-group">
-          <label>Created At :</label>
+          <label>Created At</label>
           <input
             type="date"
             value={form.createdAt}
