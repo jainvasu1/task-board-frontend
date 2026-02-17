@@ -1,16 +1,186 @@
-# React + Vite
+> Task Board – Frontend <
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium styled Task Management Board built using React + Vite + Context API + LocalStorage.
 
-Currently, two official plugins are available:
+This project was built step-by-step — starting from basic authentication to a fully working drag-and-drop task board with activity logging and persistent state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Demo : https://task-board-frontend-silk.vercel.app/
 
-## React Compiler
+*Day 1 – Project Setup*
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Created project using Vite + React
 
-## Expanding the ESLint configuration
+Clean folder structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Installed:
+
+react-router-dom
+
+lucide-react
+
+Setup routing structure
+
+Created AuthContext
+
+Implemented:
+
+Login
+
+Logout
+
+PrivateRoute
+
+Protected Dashboard route
+
+Stored user session
+
+*Day 2 - Dashboard Layout*
+
+Created AuthContext
+
+Implemented:
+
+Login
+
+Logout
+
+PrivateRoute
+
+Protected Dashboard route
+
+Stored user session
+
+Built task creation form
+
+Added fields:
+
+Title
+
+Description
+
+Tags
+
+Priority
+
+Status
+
+Due Date
+
+Created At
+
+Styled premium UI
+
+Added Edit mode support
+
+Task ID auto-generated using Date.now()
+
+*Day 3 - Board System*
+
+Implemented Kanban structure:
+
+Todo
+
+Doing
+
+Done
+
+Features:
+
+Drag & Drop tasks
+
+Edit task
+
+Delete task
+
+Filter by:
+
+Priority
+
+Date
+
+Search functionality
+
+Added full activity tracking:
+
+Actions tracked:
+
+🟢 Created
+
+🔵 Edited
+
+🟡 Moved
+
+🔴 Deleted
+
+Features:
+
+Relative time ("2 minutes ago")
+
+Task ID + Title visible
+
+Color-coded left border
+
+Persistent activity log
+
+Board state now:
+
+Persists after refresh
+
+Handles empty storage safely
+
+Restores previous tasks
+
+Restores activity logs
+
+Implemented:
+
+localStorage.setItem()
+localStorage.getItem()
+JSON.parse()
+JSON.stringify()
+
+Added:
+
+Reset Board button
+
+Confirmation popup
+
+Clears:
+
+Tasks
+
+Activity Logs
+
+LocalStorage
+
+Safe reset handling implemented.
+
+
+older Structure
+src/
+│
+├── context/
+│   ├── AuthContext.jsx
+│   └── BoardContext.jsx
+│
+├── pages/
+│   ├── Dashboard.jsx
+│   ├── CreateTask.jsx
+│   ├── ActivityLog.jsx
+│   └── Login.jsx
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+
+1️⃣ Clone Repository
+git clone https://github.com/jainvasu1/task-board-frontend.git
+
+2️⃣ Install Dependencies
+npm install
+
+3️⃣ Run Locally
+npm run dev
+
+4️⃣ Build for Production
+npm run build
