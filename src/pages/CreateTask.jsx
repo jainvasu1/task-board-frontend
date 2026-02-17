@@ -7,12 +7,10 @@ export default function CreateTask() {
   const { state, dispatch } = useBoard();
   const navigate = useNavigate();
 
-  // Find existing task if editing
   const existingTask = state.tasks.find(
     (task) => task.id === Number(id)
   );
 
-  // Form State
   const [form, setForm] = useState(
     existingTask || {
       title: "",
@@ -32,7 +30,6 @@ export default function CreateTask() {
     }));
   };
 
-  // SAVE (Add or Update)
   const handleSave = () => {
     if (!form.title.trim()) {
       alert("Title is required");
@@ -57,53 +54,36 @@ export default function CreateTask() {
     navigate("/");
   };
 
-  // DELETE (only in edit mode)
-  const handleDelete = () => {
-    if (!id) return;
-
-    dispatch({
-      type: "DELETE_TASK",
-      payload: Number(id),
-    });
-
-    navigate("/");
-  };
-
   const handleCancel = () => {
     navigate("/");
   };
 
   return (
     <div className="create-task-page">
-
-      {/* ===== TITLE BAR ===== */}
-      <div className="create-header-row">
-
-        <div className="title-left">
+      <div className="create-header">
+        <div className="title-section">
           <h2 className="create-title">
             {id ? "EDIT TASK" : "NEW TASK CREATION"}
           </h2>
 
+          {id && (
+            <p className="task-id-display">
+              Task ID: {id}
+            </p>
+          )}
+
           <input
             type="text"
             value={form.title}
-            onChange={(e) => handleChange("title", e.target.value)}
+            onChange={(e) =>
+              handleChange("title", e.target.value)
+            }
             placeholder="Enter task title"
             className="main-title-input"
           />
         </div>
 
-        <div className="title-buttons">
-
-          {id && (
-            <button
-              className="action-btn delete-btn"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-          )}
-
+        <div className="header-buttons">
           <button
             className="action-btn save-btn"
             onClick={handleSave}
@@ -117,14 +97,11 @@ export default function CreateTask() {
           >
             Cancel
           </button>
-
         </div>
       </div>
 
-      {/* ===== DESCRIPTION BOX (UNCHANGED STYLE) ===== */}
       <div className="description-box">
         <h3>Description</h3>
-
         <textarea
           placeholder="Write description here..."
           value={form.description}
@@ -134,9 +111,7 @@ export default function CreateTask() {
         />
       </div>
 
-      {/* ===== OPTIONS SECTION ===== */}
       <div className="task-options">
-
         <div className="option-group">
           <label>Tags</label>
           <select
@@ -200,9 +175,7 @@ export default function CreateTask() {
             }
           />
         </div>
-
       </div>
-
     </div>
   );
 }

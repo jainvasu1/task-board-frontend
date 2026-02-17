@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useBoard } from "../context/BoardContext";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { RotateCcw } from "lucide-react";
 import {
   Home,
   List,
@@ -27,11 +27,21 @@ export default function Dashboard() {
     navigate("/login");
   };
 
+  const handleResetBoard = () => {
+    const confirmReset = window.confirm(
+      "Are you sure you want to reset the entire board? This cannot be undone."
+    );
+
+    if (confirmReset) {
+      dispatch({ type: "RESET_BOARD" });
+    }
+  };
+
   const firstLetter = user?.email?.charAt(0).toUpperCase();
   const columns = ["Todo", "Doing", "Done"];
 
   const isHome = location.pathname === "/";
-  const isActivity = location.pathname === "/activity";
+  const isActivity = location.pathname === "/activity-log";
 
   let tasks = state.tasks.filter((task) =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -89,6 +99,15 @@ export default function Dashboard() {
           >
             <List size={18} />
             <span>Activity Log</span>
+          </div>
+
+          {/* ✅ ADDED RESET BOARD BUTTON */}
+          <div
+            className="menu-item"
+            onClick={handleResetBoard}
+          >
+            <RotateCcw size={18} />
+            <span>Reset Board</span>
           </div>
 
           <div
