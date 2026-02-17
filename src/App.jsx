@@ -11,7 +11,7 @@ import ActivityLog from "./pages/ActivityLog";
 
 
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import DashBoard from "./pages/DashBoard";
 import CreateTask from "./pages/CreateTask";
 
 const PrivateRoute = ({ children }) => {
@@ -28,7 +28,7 @@ function AppRoutes() {
         path="/"
         element={
           <PrivateRoute>
-            <Dashboard />
+            <DashBoard />
           </PrivateRoute>
         }
       />
