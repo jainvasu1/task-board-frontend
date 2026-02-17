@@ -10,6 +10,7 @@ import { BoardProvider } from "./context/BoardContext";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import CreateTask from "./pages/CreateTask";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -20,11 +21,21 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+
       <Route
         path="/"
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/create"
+        element={
+          <PrivateRoute>
+            <CreateTask />
           </PrivateRoute>
         }
       />
@@ -35,7 +46,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <BoardProvider> 
+      <BoardProvider>
         <BrowserRouter>
           <AppRoutes />
         </BrowserRouter>

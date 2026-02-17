@@ -129,10 +129,13 @@ export default function Dashboard() {
     </div>
   </div>
 
-  {/* RIGHT SIDE BUTTON */}
-  <button className="create-task-btn">
-    + Create New Task
-  </button>
+<button
+  className="create-task-btn"
+  onClick={() => navigate("/create")}
+>
+  + Create New Task
+</button>
+
 
 </div>
 
